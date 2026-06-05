@@ -6,9 +6,10 @@ using namespace std;
 
 class Serie : public Video{
     private:
-        string capitulo;
+        string nombreCapitulo;
         int temporada;
 
     public:
-        Serie(string id, string nombre, int duracion, string genero, string capitulo, int temporada);
+        Serie(string id, string nombre, int duracion, string genero, string nombreCapitulo, int temporada);
+        string getInfo() override;
 };

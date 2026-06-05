@@ -8,15 +8,23 @@
 
 using namespace std;
 
+// Sobrecarga de operadores - Igual que con un metodo, podemos sobrecargar operadores
+// En este caso, sobrecargamos el operador <<
+ostream& operator<<(ostream& output, Video& video){
+    output << "ID: ";
+    return output;
+}
+
 int main(){
-    ifstream file("videos.txt");
-    
+    ifstream file("videos.txt");    
     if(!file.is_open()) {
         cout << "FILE CAN'T BE OPENED." << endl;
     }
     string line;
+    vector<Video*> catalogo;
     while(getline(file,line)) {
-        string videoTypeStr, idStr, nombreStr, duracionStr, generoStr, capituloStr, temporadaStr;
+        string videoTypeStr, idStr, nombreStr, duracionStr, generoStr, nombreCapituloStr, temporadaStr;
+        int duracionInt, temporadaInt;
         stringstream stream(line);
         getline(stream, videoTypeStr, ',');
 
@@ -24,14 +32,27 @@ int main(){
             getline(stream, idStr, ',');
             getline(stream, nombreStr, ',');
             getline(stream, duracionStr, ',');
-            getline(stream, generoStr, ',');    
+            getline(stream, generoStr, ',');
+
+            duracionInt = stoi(duracionStr);
+            Pelicula pelicula(idStr, nombreStr, duracionInt, generoStr);
+            catalogo.push_back(&pelicula);
+            cout << pelicula.getInfo() << endl;
+
         } else if(videoTypeStr == "c"){
             getline(stream, idStr, ',');
-            getline(stream, nombreStr, ',');
+            getline(stream, nombreCapituloStr, ',');
             getline(stream, duracionStr, ',');
             getline(stream, generoStr, ',');
-            getline(stream, capituloStr, ',');
+            getline(stream, nombreStr, ',');
             getline(stream, temporadaStr, ',');
+
+            duracionInt = stoi(duracionStr);
+            temporadaInt = stoi(temporadaStr);
+            Serie serie(idStr, nombreStr, duracionInt, generoStr, nombreCapituloStr, temporadaInt);
+            catalogo.push_back(&serie);
+            cout << serie.getInfo() << endl;
+
         } else{
             cout << "Error en el archivo, mal formato" << endl;
             file.close();

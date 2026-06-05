@@ -13,10 +13,10 @@ class Video{
         vector<double> calificaciones;
 
     public:
-        void calificar(double calificacion);
-        double getCalificacion();
-        string getGenero();
-
-        virtual void mostrar() = 0;
         Video(string id, string nombre, int duracion, string genero);
+
+        void calificar(double calificacion);
+        string getCalificacionStr();
+        string getGenero();
+        virtual string getInfo() = 0;
 };
