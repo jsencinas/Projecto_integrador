@@ -1,18 +1,22 @@
 #pragma once
+#include <vector>
 #include <string>
 
 using namespace std;
 
 class Video{
     protected:
-        enum Categoria {p, c};
         string id;
         string nombre;
         int duracion;
         string genero;
-        double calificacion;
+        vector<double> calificaciones;
 
     public:
-        void calificar();
-        Video();
+        void calificar(double calificacion);
+        double getCalificacion();
+        string getGenero();
+
+        virtual void mostrar() = 0;
+        Video(string id, string nombre, int duracion, string genero);
 };
