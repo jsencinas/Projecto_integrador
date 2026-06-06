@@ -7,7 +7,7 @@ Serie::Serie(string id, string nombre, int duracion, string genero, string nombr
         
 }
 
-string Serie::getInfo(){
+string Serie::getInfo() {
     string info = id + "|" + nombre + "|" + nombreCapitulo + "," + "T" + to_string(temporada) + 
                   "|" + to_string(duracion) + "|" + genero + "|" + getCalificacionStr();
     return info;

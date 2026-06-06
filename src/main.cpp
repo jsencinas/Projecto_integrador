@@ -10,8 +10,12 @@ using namespace std;
 
 // Sobrecarga de operadores - Igual que con un metodo, podemos sobrecargar operadores
 // En este caso, sobrecargamos el operador <<
-ostream& operator<<(ostream& output, Video& video){
-    output << "ID: ";
+ostream& operator<<(ostream& output, Pelicula& pelicula){
+    output << pelicula.getInfo();
+    return output;
+}
+ostream& operator<<(ostream& output, Serie& serie){
+    output << serie.getInfo();
     return output;
 }
 
@@ -21,7 +25,8 @@ int main(){
         cout << "FILE CAN'T BE OPENED." << endl;
     }
     string line;
-    vector<Video*> catalogo;
+    vector<Pelicula*> catalogoPelicula;
+    vector<Serie*> catalogoSerie;
     while(getline(file,line)) {
         string videoTypeStr, idStr, nombreStr, duracionStr, generoStr, nombreCapituloStr, temporadaStr;
         int duracionInt, temporadaInt;
@@ -35,9 +40,9 @@ int main(){
             getline(stream, generoStr, ',');
 
             duracionInt = stoi(duracionStr);
-            Pelicula pelicula(idStr, nombreStr, duracionInt, generoStr);
-            catalogo.push_back(&pelicula);
-            cout << pelicula.getInfo() << endl;
+            
+            Pelicula* pelicula = new Pelicula(idStr, nombreStr, duracionInt, generoStr);
+            catalogoPelicula.push_back(pelicula);
 
         } else if(videoTypeStr == "c"){
             getline(stream, idStr, ',');
@@ -49,9 +54,8 @@ int main(){
 
             duracionInt = stoi(duracionStr);
             temporadaInt = stoi(temporadaStr);
-            Serie serie(idStr, nombreStr, duracionInt, generoStr, nombreCapituloStr, temporadaInt);
-            catalogo.push_back(&serie);
-            cout << serie.getInfo() << endl;
+            Serie* serie = new Serie(idStr, nombreStr, duracionInt, generoStr, nombreCapituloStr, temporadaInt);
+            catalogoSerie.push_back(serie);
 
         } else{
             cout << "Error en el archivo, mal formato" << endl;
@@ -73,11 +77,17 @@ int main(){
         getline(cin, entrada);
         menuOption = stoi(entrada);
         
-        switch (menuOption)
-        {
+        switch (menuOption){
+        // Mostrar todo el catalogo con calificaciones
         case 1:
-            cout << "hola" << endl;
+            for(Pelicula* pelicula : catalogoPelicula){
+                cout << pelicula->getInfo() << endl;
+            }
+            for(Serie* serie : catalogoSerie){
+                cout << serie->getInfo() << endl;
+            }
             break;
+        // Calificar un video
         case 2:
             break;
         
@@ -99,5 +109,13 @@ int main(){
    
     file.close();
     cout << "Archivo cerrado con exito" << endl;
+
+    for(Pelicula* pelicula : catalogoPelicula){
+        delete pelicula;
+    }
+    for(Serie* serie : catalogoSerie){
+        delete serie;
+    }
+
     return 0;
 }

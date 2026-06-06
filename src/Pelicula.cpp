@@ -7,7 +7,7 @@ Pelicula::Pelicula(string id, string nombre, int duracion, string genero) :
 
 };
 
-string Pelicula::getInfo(){
+string Pelicula::getInfo() {
     string info = id + "|" + nombre + "|" + to_string(duracion) + "|" + genero + "|" + getCalificacionStr();
     return info;
 }
