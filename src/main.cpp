@@ -81,10 +81,12 @@ int main(){
         // Mostrar todo el catalogo con calificaciones
         case 1:
             for(Pelicula* pelicula : catalogoPelicula){
-                cout << pelicula->getInfo() << endl;
+                // Calls the overloaded << operator
+                cout << *pelicula << endl;
             }
             for(Serie* serie : catalogoSerie){
-                cout << serie->getInfo() << endl;
+                // Calls the overloaded << operator
+                cout << *serie << endl;
             }
             break;
         // Calificar un video
