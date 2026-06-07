@@ -73,7 +73,9 @@ int main(){
         cout << "4. Mostrar peliculas o capitulos de un cierto genero" << endl;
         cout << "9. Salir" << endl;
         
-        string entrada;
+        string entrada, ID, calStr;
+        int calInt;
+
         getline(cin, entrada);
         menuOption = stoi(entrada);
         
@@ -91,6 +93,27 @@ int main(){
             break;
         // Calificar un video
         case 2:
+            cout << "ID del video a calificar: " << endl;
+            getline(cin, ID);
+            cout << "Escriba la calificacion (entero entre 1 y 5): " << endl;
+            getline(cin, calStr);
+            calInt = stoi(calStr);
+
+            if(ID.length() == 8){
+                for(Pelicula* pelicula : catalogoPelicula){
+                    if(pelicula->getID() == ID){
+                        pelicula->calificar(calInt);
+                    }
+                }
+            } else if(ID.length() == 15){
+                for(Serie* serie : catalogoSerie){
+                    if(serie->getID() == ID){
+                        serie->calificar(calInt);
+                    }
+                }
+            } else {
+                cout << "El formato del ID proporcionado es incorrecto" << endl;
+            }
             break;
         
         case 3:

@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cmath>
+#include <format>
 #include "Video.h"
 
 using namespace std;
@@ -7,17 +9,21 @@ Video::Video(string id, string nombre, int duracion, string genero) :
     id(id), nombre(nombre), duracion(duracion), genero(genero){
 }
 
-void Video::calificar(double calificacion){
+void Video::calificar(int calificacion){
     calificaciones.push_back(calificacion);
 }
 
 string Video::getCalificacionStr(){
     if(!calificaciones.empty()){
-        double sumaCal, promedio;
+        float promedio, sumaCal = 0;
+
+        cout << "***************" << endl;
         for(int cal : calificaciones){
             sumaCal += cal;
         }
-        promedio = sumaCal / calificaciones.size();    
+        cout << sumaCal << endl;
+        promedio = (sumaCal / calificaciones.size());
+        cout << promedio << endl;
         return to_string(promedio);
 
     } else {
@@ -27,4 +33,8 @@ string Video::getCalificacionStr(){
 
 string Video::getGenero(){
     return genero;
+}
+
+string Video::getID(){
+    return id;
 }
