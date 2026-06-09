@@ -72,12 +72,14 @@ int main(){
         cout << "3. Mostrar peliculas o capitulos con una calificacion minima determinada" << endl;
         cout << "4. Mostrar peliculas o capitulos de un cierto genero" << endl;
         cout << "9. Salir" << endl;
-        
-        string entrada, ID, calStr;
+        cout << "Escribe el numero deseado broski: "; 
+        string entrada, ID, calStr;  
         int calInt;
 
         getline(cin, entrada);
         menuOption = stoi(entrada);
+
+        cout << "*************************" << endl;
         
         switch (menuOption){
         // Mostrar todo el catalogo con calificaciones
@@ -90,30 +92,36 @@ int main(){
                 // Calls the overloaded << operator
                 cout << *serie << endl;
             }
+            cout << "*************************" << endl;
             break;
         // Calificar un video
         case 2:
             cout << "ID del video a calificar: " << endl;
             getline(cin, ID);
-            cout << "Escriba la calificacion (entero entre 1 y 5): " << endl;
+            cout << "Escriba la calificacion (entero entre 1 y 5): ";
             getline(cin, calStr);
             calInt = stoi(calStr);
 
-            if(ID.length() == 8){
-                for(Pelicula* pelicula : catalogoPelicula){
-                    if(pelicula->getID() == ID){
-                        pelicula->calificar(calInt);
+            if(calInt >= 0 || calInt <= 5){
+                if(ID.length() == 8){
+                    for(Pelicula* pelicula : catalogoPelicula){
+                        if(pelicula->getID() == ID){
+                            pelicula->calificar(calInt);
+                        }
                     }
-                }
-            } else if(ID.length() == 15){
-                for(Serie* serie : catalogoSerie){
-                    if(serie->getID() == ID){
-                        serie->calificar(calInt);
+                } else if(ID.length() == 15){
+                    for(Serie* serie : catalogoSerie){
+                        if(serie->getID() == ID){
+                            serie->calificar(calInt);
+                        }
                     }
+                } else {
+                    cout << "ERROR CRITICO CARNAL: El formato del ID proporcionado es incorrecto" << endl;
                 }
             } else {
-                cout << "El formato del ID proporcionado es incorrecto" << endl;
+                cout << "ERROR CRITICO CARNAL: La calificacion proporcionada no es valida, es invalida." << endl;
             }
+            cout << "*************************" << endl;
             break;
         
         case 3:

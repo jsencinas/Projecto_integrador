@@ -20,7 +20,6 @@ string Video::getCalificacionStr(){
             sumaCal += cal;
         }
         promedio = sumaCal / calificaciones.size();
-        cout << promedio << endl;
         string promedioStr = format("{0:.1f}", promedio);
         return promedioStr;
 
