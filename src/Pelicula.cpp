@@ -11,3 +11,8 @@ string Pelicula::getInfo() {
     string info = id + "|" + nombre + "|" + to_string(duracion) + "|" + genero + "|" + getCalificacionStr();
     return info;
 }
+
+string Pelicula::getLessInfo(){
+    string info = id + "|" + nombre + "|" + getCalificacionStr();
+    return info;
+}

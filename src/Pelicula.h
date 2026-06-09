@@ -8,4 +8,5 @@ class Pelicula : public Video {
         Pelicula(string id, string nombre, int duracion, string genero);
 
         string getInfo() override;
+        string getLessInfo() override;
 };

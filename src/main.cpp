@@ -79,7 +79,7 @@ int main(){
         getline(cin, entrada);
         menuOption = stoi(entrada);
 
-        cout << "*************************" << endl;
+        cout << "###########################" << endl;
         
         switch (menuOption){
         // Mostrar todo el catalogo con calificaciones
@@ -92,7 +92,7 @@ int main(){
                 // Calls the overloaded << operator
                 cout << *serie << endl;
             }
-            cout << "*************************" << endl;
+            cout << "###########################" << endl;
             break;
         // Calificar un video
         case 2:
@@ -102,7 +102,7 @@ int main(){
             getline(cin, calStr);
             calInt = stoi(calStr);
 
-            if(calInt >= 0 || calInt <= 5){
+            if(calInt >= 0 && calInt <= 5){
                 if(ID.length() == 8){
                     for(Pelicula* pelicula : catalogoPelicula){
                         if(pelicula->getID() == ID){
@@ -121,13 +121,64 @@ int main(){
             } else {
                 cout << "ERROR CRITICO CARNAL: La calificacion proporcionada no es valida, es invalida." << endl;
             }
-            cout << "*************************" << endl;
+            cout << "###########################" << endl;
             break;
         
-        case 3:
-            break;
+        case 3: {
+            cout << "Que quieres ver como resultado?" << endl;
+            cout << "1) Peliculas" << endl;
+            cout << "2) Capitulos" << endl;
+            cout << "3) Ambos" << endl;
+            cout << "Seleccion: ";
+
+            getline(cin, entrada);
+            int subMenuOption = stoi(entrada);
+
+            cout << "Ingresa tu calificacion minima (de 0 a 5):";
+            getline(cin, entrada);
+            float calificacionMinima = stoi(entrada);
+
+            // These are lambda functions (anonymous functions). Its like a disposable function.
+            auto mostrarPeliculas = [&]() { 
+                for(Pelicula* pelicula : catalogoPelicula){
+                    if(pelicula->getCalificacionStr() != "SC" && 
+                    stoi(pelicula->getCalificacionStr()) > calificacionMinima){
+                        std::cout << pelicula->getLessInfo() << endl;
+                    }
+                }
+            };
+
+            auto mostrarSeries = [&]() {
+                for(Serie* serie : catalogoSerie){
+                    if(serie->getCalificacionStr() != "SC" && 
+                    stoi(serie->getCalificacionStr()) > calificacionMinima){
+                        std::cout << serie->getLessInfo() << endl;
+                    }
+                }
+            };
         
+            switch (subMenuOption){
+            case 1: 
+                mostrarPeliculas();
+                break;
+            case 2:
+                mostrarSeries(); 
+                break;
+            case 3:
+                // Do case 1 and 2
+                mostrarPeliculas();
+                mostrarSeries();
+                break;
+            default:
+                cout << "ERROR CRITICO CARNAL: La opcion que proporsionaste esta fuera de rango" << endl;
+                break;
+            }
+            cout << "###########################" << endl;
+            break;
+        } 
+
         case 4:
+
             break;
         
         case 9:

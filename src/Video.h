@@ -20,4 +20,5 @@ class Video{
         string getGenero();
         string getID();
         virtual string getInfo() = 0;
+        virtual string getLessInfo() = 0;
 };

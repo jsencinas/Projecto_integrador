@@ -12,4 +12,5 @@ class Serie : public Video{
     public:
         Serie(string id, string nombre, int duracion, string genero, string nombreCapitulo, int temporada);
         string getInfo() override;
+        string getLessInfo() override;
 };
