@@ -16,15 +16,13 @@ void Video::calificar(int calificacion){
 string Video::getCalificacionStr(){
     if(!calificaciones.empty()){
         float promedio, sumaCal = 0;
-
-        cout << "***************" << endl;
         for(int cal : calificaciones){
             sumaCal += cal;
         }
-        cout << sumaCal << endl;
-        promedio = (sumaCal / calificaciones.size());
+        promedio = sumaCal / calificaciones.size();
         cout << promedio << endl;
-        return to_string(promedio);
+        string promedioStr = format("{0:.1f}", promedio);
+        return promedioStr;
 
     } else {
         return "SC";
