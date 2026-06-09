@@ -11,11 +11,11 @@ using namespace std;
 // Sobrecarga de operadores - Igual que con un metodo, podemos sobrecargar operadores
 // En este caso, sobrecargamos el operador <<
 ostream& operator<<(ostream& output, Pelicula& pelicula){
-    output << pelicula.getInfo();
+    output << pelicula.getInfo(Video::TypeInfo::generalInfo);
     return output;
 }
 ostream& operator<<(ostream& output, Serie& serie){
-    output << serie.getInfo();
+    output << serie.getInfo(Video::TypeInfo::generalInfo);
     return output;
 }
 
@@ -94,6 +94,7 @@ int main(){
             }
             cout << "###########################" << endl;
             break;
+
         // Calificar un video
         case 2:
             cout << "ID del video a calificar: " << endl;
@@ -124,6 +125,7 @@ int main(){
             cout << "###########################" << endl;
             break;
         
+        // Mostrar peliculas o capitulos con una calificacion minima determinada
         case 3: {
             cout << "Que quieres ver como resultado?" << endl;
             cout << "1) Peliculas" << endl;
@@ -134,7 +136,7 @@ int main(){
             getline(cin, entrada);
             int subMenuOption = stoi(entrada);
 
-            cout << "Ingresa tu calificacion minima (de 0 a 5):";
+            cout << "Ingresa tu calificacion minima (de 0 a 5): ";
             getline(cin, entrada);
             float calificacionMinima = stoi(entrada);
 
@@ -143,20 +145,18 @@ int main(){
                 for(Pelicula* pelicula : catalogoPelicula){
                     if(pelicula->getCalificacionStr() != "SC" && 
                     stoi(pelicula->getCalificacionStr()) > calificacionMinima){
-                        std::cout << pelicula->getLessInfo() << endl;
+                        std::cout << pelicula->getInfo(Video::TypeInfo::calificacionInfo) << endl;
                     }
                 }
             };
-
             auto mostrarSeries = [&]() {
                 for(Serie* serie : catalogoSerie){
                     if(serie->getCalificacionStr() != "SC" && 
                     stoi(serie->getCalificacionStr()) > calificacionMinima){
-                        std::cout << serie->getLessInfo() << endl;
+                        std::cout << serie->getInfo(Video::TypeInfo::calificacionInfo) << endl;
                     }
                 }
-            };
-        
+            }; 
             switch (subMenuOption){
             case 1: 
                 mostrarPeliculas();
@@ -177,10 +177,57 @@ int main(){
             break;
         } 
 
-        case 4:
+        case 4: { 
+            cout << "Que quieres ver como resultado?" << endl;
+            cout << "1) Peliculas" << endl;
+            cout << "2) Capitulos" << endl;
+            cout << "3) Ambos" << endl;
+            cout << "Seleccion: ";
 
+            getline(cin, entrada);
+            int subMenuOption = stoi(entrada);
+
+            cout << "Ingresa el genero que deseas consultar: ";
+            // Imprimir lista de generos pendiente
+            getline(cin, entrada);
+            string genero = entrada;
+
+            // These are lambda functions (anonymous functions). Its like a disposable function.
+            auto mostrarPeliculas = [&]() { 
+                for(Pelicula* pelicula : catalogoPelicula){
+                    if(pelicula->getGenero() == genero){
+                        std::cout << pelicula->getInfo(Video::TypeInfo::generoInfo) << endl;
+                    }
+                }
+            };
+            auto mostrarSeries = [&]() {
+                for(Serie* serie : catalogoSerie){
+                    if(serie->getGenero() == genero){
+                        std::cout << serie->getInfo(Video::TypeInfo::generoInfo) << endl;
+                    }
+                }
+            }; 
+            switch (subMenuOption){
+            case 1: 
+                mostrarPeliculas();
+                break;
+            case 2:
+                mostrarSeries(); 
+                break;
+            case 3:
+                // Do case 1 and 2
+                mostrarPeliculas();
+                mostrarSeries();
+                break;
+            default:
+                cout << "ERROR CRITICO CARNAL: La opcion que proporsionaste esta fuera de rango" << endl;
+                break;
+            }
+            cout << "###########################" << endl;
+
+            
             break;
-        
+        }
         case 9:
             cout << "Saliendo del programa brother, cool dia" << endl;
             break;

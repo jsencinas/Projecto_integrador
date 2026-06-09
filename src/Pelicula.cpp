@@ -7,12 +7,25 @@ Pelicula::Pelicula(string id, string nombre, int duracion, string genero) :
 
 };
 
-string Pelicula::getInfo() {
-    string info = id + "|" + nombre + "|" + to_string(duracion) + "|" + genero + "|" + getCalificacionStr();
-    return info;
-}
-
-string Pelicula::getLessInfo(){
-    string info = id + "|" + nombre + "|" + getCalificacionStr();
-    return info;
+string Pelicula::getInfo(TypeInfo type) {
+    switch (type){
+    case generalInfo: {
+        string info = id + "|" + nombre + "|" + to_string(duracion) + "|" + genero + "|" + getCalificacionStr();
+        return info;
+        break;
+    }
+    case calificacionInfo: {
+        string info = id + "|" + nombre + "|" + getCalificacionStr();
+        return info;
+        break;
+    }
+    case generoInfo: {
+        string info = id + "|" + nombre + "|" + genero + "|" + getCalificacionStr(); 
+        return info;
+        break;
+    } 
+    default:
+        return "";
+        break;
+    }  
 }

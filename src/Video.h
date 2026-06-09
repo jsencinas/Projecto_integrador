@@ -15,10 +15,15 @@ class Video{
     public:
         Video(string id, string nombre, int duracion, string genero);
 
+        enum TypeInfo{
+            generalInfo,
+            calificacionInfo,
+            generoInfo 
+        };
+
         void calificar(int calificacion);
         string getCalificacionStr();
         string getGenero();
         string getID();
-        virtual string getInfo() = 0;
-        virtual string getLessInfo() = 0;
+        virtual string getInfo(TypeInfo type) = 0;
 };
