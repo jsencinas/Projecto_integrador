@@ -35,3 +35,7 @@ string Video::getGenero(){
 string Video::getID(){
     return id;
 }
+
+string Video::getInfo(TypeInfo type){
+    return "";
+}

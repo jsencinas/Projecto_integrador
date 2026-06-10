@@ -25,5 +25,5 @@ class Video{
         string getCalificacionStr();
         string getGenero();
         string getID();
-        virtual string getInfo(TypeInfo type) = 0;
+        virtual string getInfo(TypeInfo type);
 };

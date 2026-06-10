@@ -10,12 +10,9 @@ using namespace std;
 
 // Sobrecarga de operadores - Igual que con un metodo, podemos sobrecargar operadores
 // En este caso, sobrecargamos el operador <<
-ostream& operator<<(ostream& output, Pelicula& pelicula){
-    output << pelicula.getInfo(Video::TypeInfo::generalInfo);
-    return output;
-}
-ostream& operator<<(ostream& output, Serie& serie){
-    output << serie.getInfo(Video::TypeInfo::generalInfo);
+
+ostream& operator<<(ostream& output, Video& video){
+    output << video.getInfo(Video::TypeInfo::generalInfo);
     return output;
 }
 
@@ -25,8 +22,7 @@ int main(){
         cout << "FILE CAN'T BE OPENED." << endl;
     }
     string line;
-    vector<Pelicula*> catalogoPelicula;
-    vector<Serie*> catalogoSerie;
+    vector<Video*> catalogoVideos;
     while(getline(file,line)) {
         string videoTypeStr, idStr, nombreStr, duracionStr, generoStr, nombreCapituloStr, temporadaStr;
         int duracionInt, temporadaInt;
@@ -42,7 +38,7 @@ int main(){
             duracionInt = stoi(duracionStr);
             
             Pelicula* pelicula = new Pelicula(idStr, nombreStr, duracionInt, generoStr);
-            catalogoPelicula.push_back(pelicula);
+            catalogoVideos.push_back(pelicula);
 
         } else if(videoTypeStr == "c"){
             getline(stream, idStr, ',');
@@ -55,7 +51,7 @@ int main(){
             duracionInt = stoi(duracionStr);
             temporadaInt = stoi(temporadaStr);
             Serie* serie = new Serie(idStr, nombreStr, duracionInt, generoStr, nombreCapituloStr, temporadaInt);
-            catalogoSerie.push_back(serie);
+            catalogoVideos.push_back(serie);
 
         } else{
             cout << "Error en el archivo, mal formato" << endl;
@@ -84,13 +80,9 @@ int main(){
         switch (menuOption){
         // Mostrar todo el catalogo con calificaciones
         case 1:
-            for(Pelicula* pelicula : catalogoPelicula){
+            for(Video* video : catalogoVideos){
                 // Calls the overloaded << operator
-                cout << *pelicula << endl;
-            }
-            for(Serie* serie : catalogoSerie){
-                // Calls the overloaded << operator
-                cout << *serie << endl;
+                cout << *video << endl;
             }
             cout << "###########################" << endl;
             break;
@@ -103,24 +95,18 @@ int main(){
             getline(cin, calStr);
             calInt = stoi(calStr);
 
-            if(calInt >= 0 && calInt <= 5){
-                if(ID.length() == 8){
-                    for(Pelicula* pelicula : catalogoPelicula){
-                        if(pelicula->getID() == ID){
-                            pelicula->calificar(calInt);
-                        }
-                    }
-                } else if(ID.length() == 15){
-                    for(Serie* serie : catalogoSerie){
-                        if(serie->getID() == ID){
-                            serie->calificar(calInt);
+            if(ID.size() == 8 || ID.size() == 15){
+                if(calInt >= 0 && calInt <= 5){
+                    for(Video* video : catalogoVideos){
+                        if(video->getID() == ID){
+                            video->calificar(calInt);
                         }
                     }
                 } else {
-                    cout << "ERROR CRITICO CARNAL: El formato del ID proporcionado es incorrecto" << endl;
+                    cout << "ERROR CRITICO CARNAL: La calificacion proporcionada no es valida, es invalida." << endl;
                 }
             } else {
-                cout << "ERROR CRITICO CARNAL: La calificacion proporcionada no es valida, es invalida." << endl;
+                cout << "ERROR CRITICO CARNAL: El id proporcionado es incorrecto, no existe" << endl;
             }
             cout << "###########################" << endl;
             break;
@@ -141,19 +127,22 @@ int main(){
             float calificacionMinima = stoi(entrada);
 
             // These are lambda functions (anonymous functions). Its like a disposable function.
-            auto mostrarPeliculas = [&]() { 
-                for(Pelicula* pelicula : catalogoPelicula){
-                    if(pelicula->getCalificacionStr() != "SC" && 
-                    stoi(pelicula->getCalificacionStr()) > calificacionMinima){
-                        std::cout << pelicula->getInfo(Video::TypeInfo::calificacionInfo) << endl;
+
+            auto mostrarPeliculas = [&]() {
+                for(Video* video : catalogoVideos){
+                    if(video->getID().size() == 8 && 
+                    video->getCalificacionStr() != "SC" && 
+                    stoi(video->getCalificacionStr()) > calificacionMinima){
+                        std::cout << video->getInfo(Video::TypeInfo::calificacionInfo) << endl;
                     }
                 }
             };
             auto mostrarSeries = [&]() {
-                for(Serie* serie : catalogoSerie){
-                    if(serie->getCalificacionStr() != "SC" && 
-                    stoi(serie->getCalificacionStr()) > calificacionMinima){
-                        std::cout << serie->getInfo(Video::TypeInfo::calificacionInfo) << endl;
+                for(Video* video : catalogoVideos){
+                    if(video->getID().size() == 15 && 
+                    video->getCalificacionStr() != "SC" && 
+                    stoi(video->getCalificacionStr()) > calificacionMinima){
+                        std::cout << video->getInfo(Video::TypeInfo::calificacionInfo) << endl;
                     }
                 }
             }; 
@@ -194,16 +183,18 @@ int main(){
 
             // These are lambda functions (anonymous functions). Its like a disposable function.
             auto mostrarPeliculas = [&]() { 
-                for(Pelicula* pelicula : catalogoPelicula){
-                    if(pelicula->getGenero() == genero){
-                        std::cout << pelicula->getInfo(Video::TypeInfo::generoInfo) << endl;
+                for(Video* video : catalogoVideos){
+                    if(video->getID().size() == 8 && 
+                    video->getGenero() == genero){
+                        std::cout << video->getInfo(Video::TypeInfo::generoInfo) << endl;
                     }
                 }
             };
             auto mostrarSeries = [&]() {
-                for(Serie* serie : catalogoSerie){
-                    if(serie->getGenero() == genero){
-                        std::cout << serie->getInfo(Video::TypeInfo::generoInfo) << endl;
+                for(Video* video : catalogoVideos){
+                    if(video->getID().size() == 15 && 
+                    video->getGenero() == genero){
+                        std::cout << video->getInfo(Video::TypeInfo::generoInfo) << endl;
                     }
                 }
             }; 
@@ -224,7 +215,6 @@ int main(){
                 break;
             }
             cout << "###########################" << endl;
-
             
             break;
         }
@@ -238,14 +228,10 @@ int main(){
         }
     } while (menuOption != 9);
    
+    // Clean up the mess
     file.close();
-    cout << "Archivo cerrado con exito" << endl;
-
-    for(Pelicula* pelicula : catalogoPelicula){
-        delete pelicula;
-    }
-    for(Serie* serie : catalogoSerie){
-        delete serie;
+    for(Video* video : catalogoVideos){
+        delete video;
     }
 
     return 0;
