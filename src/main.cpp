@@ -132,7 +132,7 @@ int main(){
                 for(Video* video : catalogoVideos){
                     if(video->getID().size() == 8 && 
                     video->getCalificacionStr() != "SC" && 
-                    stoi(video->getCalificacionStr()) > calificacionMinima){
+                    stof(video->getCalificacionStr()) >= calificacionMinima){
                         std::cout << video->getInfo(Video::TypeInfo::calificacionInfo) << endl;
                     }
                 }
@@ -141,7 +141,7 @@ int main(){
                 for(Video* video : catalogoVideos){
                     if(video->getID().size() == 15 && 
                     video->getCalificacionStr() != "SC" && 
-                    stoi(video->getCalificacionStr()) > calificacionMinima){
+                    stof(video->getCalificacionStr()) >= calificacionMinima){
                         std::cout << video->getInfo(Video::TypeInfo::calificacionInfo) << endl;
                     }
                 }
